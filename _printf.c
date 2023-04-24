@@ -1,4 +1,5 @@
 #include "main.h"
+<<<<<<< HEAD
 #include <stdarg.h>
 
 /**
@@ -29,28 +30,55 @@ int (*check_format(const char *format))(va_list)
  * _printf - function for format printing
  * @format: list of arguments to printing
  * Return: Number of characters to printing
+=======
+
+/**
+ * _printf - prints everything
+ * @format: the format string
+ * @...: other parameter
+ * Return: number of bytes
+>>>>>>> a42d3c0af5c228007b9c912d8b4105bfe4633ce8
  */
 int _printf(const char *format, ...)
 {
+	int sum = 0;
 	va_list ap;
+<<<<<<< HEAD
 	int (*f)(va_list);
 	unsigned int i = 0, counter = 0;
 
 	if (format == NULL)
 		return (-1);
+=======
+	char *p, *start;
+	params_t params = PARAMS_INIT;
+>>>>>>> a42d3c0af5c228007b9c912d8b4105bfe4633ce8
 
 	va_start(ap, format);
-	while (format && format[i])
+
+	if (!format || (format[0] == '%' && !format[1]))
+		return (-1);
+	if (format[0] == '%' && format[1] == ' ' && !format[2])
+		return (-1);
+	for (p = (char *)format; *p; p++)
 	{
-		if (format[i] != '%')
+		init_params(&params, ap);
+		if (*p != '%')
 		{
+<<<<<<< HEAD
 			_putchar(format[i]);
 			counter++;
 			i++;
+=======
+			sum += _putchar(*p);
+>>>>>>> a42d3c0af5c228007b9c912d8b4105bfe4633ce8
 			continue;
 		}
-		else
+		start = p;
+		p++;
+		while (get_flag(p, &params))
 		{
+<<<<<<< HEAD
 			if (format[i + 1] == '%')
 			{
 				_putchar('%');
@@ -67,9 +95,27 @@ int _printf(const char *format, ...)
 				counter += f(ap);
 				continue;
 			}
+=======
+			p++;
+>>>>>>> a42d3c0af5c228007b9c912d8b4105bfe4633ce8
 		}
-		i++;
+		p = get_width(p, &params, ap);
+		p = get_precision(p, &params, ap);
+		if (get_modifier(p, params))
+			p++;
+		if (!get_specifier(p))
+			sum += print_form_to(start, p, params.l_modifier
+					|| params.hçmodifier ? p - 1 : 0);
+		else
+			sum += get_print_func(p, ap, &params);
 	}
+<<<<<<< HEAD
 	va_end(ap);
 	return (counter);
+=======
+
+	_putchar(BUF_FLUSH);
+	va_end(ap);
+	return (sum);
+>>>>>>> a42d3c0af5c228007b9c912d8b4105bfe4633ce8
 }
