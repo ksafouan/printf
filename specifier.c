@@ -121,7 +121,6 @@ int get_modifier(char *s, params_t *params)
  */
 
 char *get_width(char *s, params_t *params, va_list ap)
-
 /* should this function use char **s and modify the pointer? */
 {
 	int d = 0;
